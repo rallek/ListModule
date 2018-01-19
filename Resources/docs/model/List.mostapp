@@ -82,9 +82,9 @@ application "List" targets ZK15 {
     }
     relations {
         one2many bidirectional {
-            source "item"
+            source "action"
             sourceAlias "action"
-            target "action"
+            target "item"
             targetAlias "items"
         }
     }
