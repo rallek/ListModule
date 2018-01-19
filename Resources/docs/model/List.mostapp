@@ -1,0 +1,91 @@
+application "List" targets ZK15 {
+    vendor "K62"
+    author "Ralf Koester"
+    email "ralf@familie-koester.de"
+    url "http://k62.de"
+    version "0.1.0"
+    prefix "list"
+    generateModerationBlock false
+    generateModerationPanel false
+    generatePendingContentSupport false
+    generateScribitePlugins false
+    generateRssTemplates false
+    generateAtomTemplates false
+    generateCsvTemplates false
+    generateXmlTemplates false
+    generateJsonTemplates false
+    generateKmlTemplates false
+    generateIcsTemplates false
+    versionAllGeneratedFiles false
+    separateAdminTemplates true
+    generateTests false
+    displayActionsStyle BUTTON_GROUP
+    entities {
+        entity "item" {
+            nameMultiple "items"
+            displayPattern "#mainValue#"
+            hasTray true
+            fields {
+                array "itemArray" {
+                    documentation "here we store the content of the fields defined in filedsOfList"
+                    arrayType JSON_ARRAY
+                },
+                string "mainValue" readonly {
+                    documentation "will be calculated from array"
+                    mandatory false
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit"
+            }
+        },
+        entity "action" leading categorisable {
+            nameMultiple "actions"
+            displayPattern "#title#"
+            hasTray true
+            ownerPermission true
+            uiHooksProvider ENABLED
+            fields {
+                string "title",
+                text "purpose" {
+                    mandatory false
+                },
+                array "fieldsOfList" {
+                    documentation "here we store the headlines/field label for the items"
+                    arrayType JSON_ARRAY
+                },
+                integer "quantity" {
+                    documentation "maximal number of items in that list"
+                    defaultValue "0"
+                    mandatory false
+                },
+                datetime "closingDate" {
+                    documentation "if there is a date you will be able to add items as long as the date is not over or the list is closed"
+                    mandatory false
+                    components DATE
+                },
+                boolean "closed" {
+                    documentation "with this field you can close the list"
+                    mandatory false
+                }
+            }
+            actions {
+                mainAction "Index",
+                viewAction "View",
+                displayAction "Display",
+                editAction "Edit"
+            }
+        }
+    }
+    relations {
+        one2many bidirectional {
+            source "item"
+            sourceAlias "action"
+            target "action"
+            targetAlias "items"
+        }
+    }
+}
