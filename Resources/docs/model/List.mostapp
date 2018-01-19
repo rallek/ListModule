@@ -1,5 +1,5 @@
 application "List" targets ZK15 {
-    vendor "K62"
+    vendor "RK"
     author "Ralf Koester"
     email "ralf@familie-koester.de"
     url "http://k62.de"
